@@ -1,0 +1,93 @@
+import { useEffect, useState, useContext } from "react";
+import { useNavigate } from "react-router-dom"; 
+import "./ui/Home.css";
+import SectionDao from "../../entities/section/api/SectionDao";
+import ProductDao from "../../entities/product/api/ProductDao";
+import ProductCard from "../../features/product_card/ProductCard";
+import type { HomePageSection } from "../../features/section_card/types/section";
+import type { ProductType } from "../../entities/product/model/ProductType";
+import SectionCard from "../../features/section_card/SectionCard";
+import { AppContext } from "../../features/app_context/AppContext"; 
+
+export default function Home() {
+  const [sections, setSections] = useState<HomePageSection[]>([]);
+  const [bestsellers, setBestsellers] = useState<ProductType[]>([]);
+  
+  const [searchValue, setSearchValue] = useState("");
+  const navigate = useNavigate();
+
+  // Достаем функцию управления загрузкой из контекста
+  const { setIsLoading } = useContext(AppContext);
+
+  useEffect(() => {
+    // 1. Включаем загрузку
+    setIsLoading(true);
+
+    // 2. Ждем выполнения обоих запросов
+    Promise.all([
+      SectionDao.getSections().then(setSections),
+      ProductDao.getBestsellers().then(setBestsellers)
+    ])
+    .finally(() => {
+      // 3. Выключаем загрузку, когда всё готово
+      setIsLoading(false);
+    });
+  }, [setIsLoading]);
+
+  const handleSearch = () => {
+    if (searchValue.trim()) {
+      navigate(`/catalog?search=${searchValue}`);
+    }
+  };
+
+  return (
+    <div className="home-page">
+      
+      <div className="main-banner">
+        <div className="banner-content">
+          <h1 className="banner-title">Welcome to the online shop!</h1>
+          <p className="banner-subtitle">
+            Thousands of products from trusted sellers with fast delivery.
+          </p>
+          
+          <div className="banner-search">
+             <i className="bi bi-search" onClick={handleSearch} style={{cursor: 'pointer'}}></i>
+             <input 
+                type="text" 
+                placeholder="Searching products..." 
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+             />
+          </div>
+        </div>
+
+        {/* Декоративные картинки */}
+        <img src="/img/headphonesfull.png.webp" alt="headphones" className="banner-decor decor-headphones" />
+        <img src="/img/big-2025-iphonefull.png.webp" alt="phone" className="banner-decor decor-phone" />
+        <img src="/img/wide-noutfull.png.webp" alt="laptop" className="banner-decor decor-laptop" />
+      </div>
+
+      {/* Секция Категорий */}
+      <div>
+        <h2 style={{ fontSize: '24px', fontWeight: 700, marginBottom: '20px' }}>Categories</h2>
+        <div className="categories-grid">
+           {sections.map((sec) => (
+             <SectionCard section={sec} key={sec.slug} />
+           ))}
+        </div>
+      </div>
+
+      {/* Секция Хиты Продаж */}
+      <div style={{ marginTop: '20px' }}>
+        <h2 style={{ fontSize: '24px', fontWeight: 700, marginBottom: '20px' }}>Bestsellers</h2>
+        <div style={{display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px', marginBottom: '10%'}}>
+           {bestsellers.map((product) => (
+             <ProductCard product={product} key={product.id} />
+           ))}
+        </div>
+      </div>
+
+    </div>
+  );
+}
