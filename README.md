@@ -2,7 +2,7 @@
 
 An online electronics store where users can browse the product catalog, study specifications, compare prices, and place orders through a user-friendly, modern interface.
 
-Technology
+## Technology
 
 - React
 - Vite
@@ -10,7 +10,7 @@ Technology
 - React Router
 - CSS
   
-Project structure
+## Project structure
 
 src/
 ├── entities/          
@@ -21,17 +21,17 @@ src/
 ├── index.css       
 └── main.tsx     
 
-Installation
+## Installation
 
-Clone the repository
+### Clone the repository
 
 git clone https://github.com/username/comercia_shop.git
 cd prake
-Install dependencies
+### Install dependencies
 
 npm install
-Start the development server
+### Start the development server
 
 npm run dev
 
-Open browser at http://localhost:5173
+#### Open browser at http://localhost:5173
