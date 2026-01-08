@@ -139,13 +139,20 @@ src/
 
 ### Clone the repository
 
+```
 git clone https://github.com/username/comercia_shop.git
 cd prake
+```
+
 ### Install dependencies
 
+```
 npm install
+```
 ### Start the development server
 
+```
 npm run dev
+```
 
 #### Open browser at http://localhost:5173
