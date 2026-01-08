@@ -114,6 +114,7 @@ export default defineConfig([
 
 An online electronics store where users can browse the product catalog, study specifications, compare prices, and place orders through a user-friendly, modern interface.
 
+
 ## Technology
 - React
 - Vite
