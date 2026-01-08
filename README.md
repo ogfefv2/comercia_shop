@@ -124,6 +124,7 @@ An online electronics store where users can browse the product catalog, study sp
   
 ## Project structure
 
+```
 src/
 ├── entities/          
 ├── features/      
@@ -132,6 +133,7 @@ src/
 ├── App.tsx    
 ├── index.css       
 └── main.tsx     
+```
 
 ## Installation
 
